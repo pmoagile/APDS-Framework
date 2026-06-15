@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agile Project Delivery System (APDS) Framework - Interactive Guideline</title>
+<style>
+  :root {
+    --green: #22c55e;
+    --green-bg: #f0fdf4;
+    --green-border: #86efac;
+    --amber: #f59e0b;
+    --amber-bg: #fffbeb;
+    --amber-border: #fcd34d;
+    --red: #ef4444;
+    --red-bg: #fef2f2;
+    --red-border: #fca5a5;
+    --blue: #3b82f6;
+    --blue-bg: #eff6ff;
+    --blue-border: #93c5fd;
+    --purple: #8b5cf6;
+    --gray: #f8fafc;
+    --dark: #1e293b;
+    --muted: #64748b;
+    --radius: 12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f1f5f9;color:var(--dark);line-height:1.6}
+  .container{max-width:1280px;margin:0 auto;padding:20px}
+  header{background:linear-gradient(135deg,#1e293b,#334155);color:#fff;padding:32px;border-radius:var(--radius);margin-bottom:24px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+  header h1{font-size:28px;margin-bottom:4px}
+  header p{color:#94a3b8;font-size:15px}
+  .nav-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;background:#fff;padding:8px;border-radius:var(--radius);box-shadow:0 1px 3px rgba(0,0,0,.08);position:sticky;top:8px;z-index:100}
+  .nav-bar button{background:transparent;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);transition:all .15s}
+  .nav-bar button:hover{background:var(--gray);color:var(--dark)}
+  .nav-bar button.active{background:var(--dark);color:#fff}
+  .section{display:none}
+  .section.active{display:block}
+  .card{background:#fff;border-radius:var(--radius);padding:24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .card h2{font-size:20px;margin-bottom:12px;color:var(--dark)}
+  .card h3{font-size:16px;margin-bottom:8px;color:var(--dark)}
+  .card p, .card li{color:#475569;font-size:14px}
+  .card ul{padding-left:20px}
+  .card ul li{margin-bottom:4px}
+  .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600}
+  .badge-green{background:var(--green-bg);color:#15803d;border:1px solid var(--green-border)}
+  .badge-amber{background:var(--amber-bg);color:#92400e;border:1px solid var(--amber-border)}
+  .badge-red{background:var(--red-bg);color:#991b1b;border:1px solid var(--red-border)}
+  .zone-box{display:flex;gap:12px;margin:12px 0;flex-wrap:wrap}
+  .zone-item{flex:1;min-width:180px;padding:14px;border-radius:8px;text-align:center}
+  .zone-item.green{background:var(--green-bg);border:2px solid var(--green-border)}
+  .zone-item.amber{background:var(--amber-bg);border:2px solid var(--amber-border)}
+  .zone-item.red{background:var(--red-bg);border:2px solid var(--red-border)}
+  .zone-item .label{font-size:13px;font-weight:600;margin-bottom:2px}
+  .zone-item .range{font-size:12px;color:var(--muted)}
+  .zone-item .desc{font-size:12px;margin-top:4px;color:#475569}
+
+  .formula-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin:12px 0;font-size:14px}
+  .formula-box code{background:#e2e8f0;padding:2px 6px;border-radius:4px;font-size:13px}
+  .formula-box .math{font-size:16px;font-weight:600;color:var(--dark)}
+
+  .checklist{padding:0;list-style:none}
+  .checklist li{padding:8px 0 8px 28px;position:relative;font-size:14px;border-bottom:1px solid #f1f5f9}
+  .checklist li:before{content:"\2610";position:absolute;left:0;font-size:18px;color:var(--blue)}
+  .checklist li.done:before{content:"\2611";color:var(--green)}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  @media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+  .calc-group{margin-bottom:12px}
+  .calc-group label{display:block;font-size:13px;font-weight:600;margin-bottom:4px;color:var(--dark)}
+  .calc-group input{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:14px}
+  .calc-group input:focus{outline:2px solid var(--blue);border-color:transparent}
+  .result-box{padding:12px;border-radius:8px;margin-top:8px;font-weight:600;text-align:center;font-size:16px}
+  .calc-btn{background:var(--dark);color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;margin-top:8px}
+  .calc-btn:hover{background:#334155}
+
+  .process-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .process-step{background:var(--gray);border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;font-size:13px;text-align:center;flex:1;min-width:120px}
+  .process-step .step-label{font-weight:600;color:var(--dark)}
+  .process-step .step-desc{font-size:11px;color:var(--muted)}
+  .process-arrow{color:var(--muted);font-size:18px}
+
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+  th,td{text-align:left;padding:10px 12px;border:1px solid #e2e8f0}
+  th{background:#f8fafc;font-weight:600}
+  tr:hover{background:#f8fafc}
+
+  .indicator-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:768px){.indicator-grid{grid-template-columns:1fr}}
+  .indicator-card{border-radius:var(--radius);overflow:hidden;border:2px solid #e2e8f0}
+  .indicator-card .header{padding:14px 16px;color:#fff;font-weight:600;font-size:16px}
+  .indicator-card .body{padding:16px}
+  .indicator-card .header.green-hdr{background:var(--green)}
+  .indicator-card .header.amber-hdr{background:var(--amber)}
+  .indicator-card .header.red-hdr{background:var(--red)}
+  .indicator-card .header.blue-hdr{background:var(--blue)}
+  .indicator-card .header.purple-hdr{background:var(--purple)}
+
+  .priority-bar{display:flex;gap:12px;margin:8px 0}
+  .priority-item{flex:1;padding:10px;border-radius:6px;font-size:12px}
+  .priority-item.high{background:#fef2f2;border:1px solid #fca5a5}
+  .priority-item.med{background:#fffbeb;border:1px solid #fcd34d}
+  .priority-item.low{background:#f0fdf4;border:1px solid #86efac}
+
+  .fade-in{animation:fadeIn .3s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<header>
+  <h1>Agile Project Delivery System (APDS) Framework</h1>
+  <p>Interactive Guideline — Inputs, Processes, Outputs, Indicators &amp; Decisions</p>
+</header>
+
+<nav class="nav-bar" id="navBar">
+  <button class="active" data-section="overview">Overview</button>
+  <button data-section="inputs">Inputs</button>
+  <button data-section="processes">Processes</button>
+  <button data-section="indicators">Indicators</button>
+  <button data-section="formulas">Formulas &amp; Zones</button>
+  <button data-section="moscow">MoSCoW</button>
+  <button data-section="forecast">Forecasting</button>
+  <button data-section="checklists">Checklists</button>
+  <button data-section="calculators">Calculators</button>
+</nav>
+
+<!-- ============ OVERVIEW ============ -->
+<div id="section-overview" class="section active">
+  <div class="card fade-in">
+    <h2>What is APDS?</h2>
+    <p>The <strong>Agile Project Delivery System (APDS)</strong> is a supplementary measurement and decision-making framework for Scrum initiatives. It tracks <strong>four core indicators</strong> — Cumulative Delivery Pace (CDP), Resource Efficiency (RE), Scope Stability (SS), and Collaboration &amp; Satisfaction (CS) — each classified into <span class="badge badge-green">Green</span>, <span class="badge badge-amber">Amber</span>, or <span class="badge badge-red">Red</span> zones. These feed into a <strong>Project Score</strong> that maps to four decision levels: Proceed, Watch, Review, or Escalate.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card fade-in">
+      <h2>Core Capabilities</h2>
+      <ul>
+        <li><strong>Quantifiable Confidence</strong> — Every indicator scores 0–1, eliminating guesswork</li>
+        <li><strong>Data-Driven Decisions</strong> — Project Score maps to actionable levels</li>
+        <li><strong>Early Warning System</strong> — Amber/Red zones flag issues before crises</li>
+        <li><strong>Forecast Accuracy</strong> — Predict total sprints needed via FCP</li>
+        <li><strong>Governance Traceability</strong> — Auditable, repeatable decisions</li>
+      </ul>
+    </div>
+    <div class="card fade-in">
+      <h2>Who Should Use It</h2>
+      <p>Project Managers, Product Owners, Scrum Masters, and team leads who want to back decisions with measurable data — without interrupting the team's daily Scrum workflow.</p>
+      <div style="margin-top:12px">
+        <span class="badge badge-green">Green: 90–100%</span>
+        <span class="badge badge-amber" style="margin-left:4px">Amber: 80–89%</span>
+        <span class="badge badge-red" style="margin-left:4px">Red: 0–79%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <h2>Project Score &amp; Decision Levels</h2>
+    <table>
+      <tr><th>Level</th><th>Score Range</th><th>Action</th></tr>
+      <tr style="background:var(--green-bg)"><td><strong>Proceed</strong></td><td>90–100%</td><td>All indicators Green. Continue monitoring.</td></tr>
+      <tr style="background:var(--amber-bg)"><td><strong>Watch</strong></td><td>80–89%</td><td>One or more indicators Amber. Monitor closely.</td></tr>
+      <tr style="background:#fef9c3"><td><strong>Review</strong></td><td>70–79%</td><td>Significant issues. Corrective action needed.</td></tr>
+      <tr style="background:var(--red-bg)"><td><strong>Escalate</strong></td><td>0–69%</td><td>Project viability in doubt. Escalate to governance.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ============ INPUTS ============ -->
+<div id="section-inputs" class="section">
+  <div class="card fade-in">
+    <h2>APDS Inputs</h2>
+    <p>The framework requires the following foundational data elements, established during project setup and maintained throughout the lifecycle.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card fade-in">
+      <h2>Work Units (WU)</h2>
+      <p>Each requirement (feature, user story, task) tracked via three elements:</p>
+      <ul>
+        <li><strong>Fibonacci Estimate</strong> — 1, 2, 3, 5, 8, 13… (fixed unless scope changes)</li>
+        <li><strong>WPL Rung</strong> — R1–R5 tracking state</li>
+        <li><strong>Weighted Progress</strong> — Fib × Rung completion %</li>
+      </ul>
+    </div>
+
+    <div class="card fade-in">
+      <h2>Work Progression Ladder (WPL)</h2>
+      <table>
+        <tr><th>Rung</th><th>Description</th><th>Completion</th></tr>
+        <tr><td>R1: Draft</td><td>Work identified and assigned</td><td>0%</td></tr>
+        <tr><td>R2: Assembly</td><td>Work in progress, components built</td><td>25%</td></tr>
+        <tr><td>R3: Validation</td><td>Ready for review/testing</td><td>60%</td></tr>
+        <tr><td>R4: Certified</td><td>Passed validation, approved</td><td>85%</td></tr>
+        <tr><td>R5: Agreed</td><td>Accepted by PO/customer</td><td>100%</td></tr>
+      </table>
+    </div>
+
+    <div class="card fade-in">
+      <h2>Planning Parameters</h2>
+      <ul>
+        <li><strong>Total Project Budget</strong> — Distributed across sprints</li>
+        <li><strong>Total Number of Sprints</strong> — From release plan</li>
+        <li><strong>Original WU Count</strong> — Baseline scope</li>
+        <li><strong>MoSCoW Prioritization</strong> — Must/Should/Could/Won't Have</li>
+      </ul>
+    </div>
+
+    <div class="card fade-in">
+      <h2>Feedback Data (per Sprint)</h2>
+      <ul>
+        <li><strong>Team Collaboration ratings</strong> (1–5, 3 statements)</li>
+        <li><strong>Stakeholder Satisfaction ratings</strong> (1–5, 2 statements)</li>
+        <li><strong>Communication ratings</strong> (1–5, 2 statements)</li>
+        <li><strong>Actual Sprint Cost (SC)</strong></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PROCESSES ============ -->
+<div id="section-processes" class="section">
+  <div class="card fade-in">
+    <h2>APDS Lifecycle: Setup through Sprint Planning</h2>
+    <div class="process-flow">
+      <div class="process-step"><span class="step-label">1. Log Requirements</span><span class="step-desc">Candidate Work Units</span></div>
+      <span class="process-arrow">→</span>
+      <div class="process-step"><span class="step-label">2. MoSCoW Prioritize</span><span class="step-desc">Business value ranking</span></div>
+      <span class="process-arrow">→</span>
+      <div class="process-step"><span class="step-label">3. Release Plan</span><span class="step-desc">Sprint count &amp; budget baseline</span></div>
+      <span class="process-arrow">→</span>
+      <div class="process-step"><span class="step-label">4. Product Backlog</span><span class="step-desc">WUs + Fibonacci + Dependencies</span></div>
+      <span class="process-arrow">→</span>
+      <div class="process-step"><span class="step-label">5. Sprint Planning</span><span class="step-desc">PP, SB, indicator review</span></div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card fade-in">
+      <h2>Product Backlog Refinement</h2>
+      <p>Ongoing refinement guided by indicator health:</p>
+      <div class="priority-bar">
+        <div class="priority-item high"><strong>Priority 1 (High)</strong><br>Any Red indicator → Address immediately</div>
+        <div class="priority-item med"><strong>Priority 2 (Medium)</strong><br>Any Amber indicator → Investigate</div>
+        <div class="priority-item low"><strong>Priority 3 (Low)</strong><br>All Green → Standard value-driven prioritization</div>
+      </div>
+    </div>
+
+    <div class="card fade-in">
+      <h2>Sprint Planning Integration</h2>
+      <p>The PO presents previous sprint's indicators, Project Score, and FCP. The team uses this data to determine sprint capacity and commitment:</p>
+      <ul>
+        <li>If <strong>CDP is Critical</strong> → consider lighter load</li>
+        <li>If <strong>RE is Critical</strong> → investigate resourcing</li>
+        <li>If <strong>SS is Creeping/Unstable</strong> → factor scope growth</li>
+        <li>If <strong>CS is Damaged/Broken</strong> → address collaboration first</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <h2>Problem Solving Workshop Triggers</h2>
+    <table>
+      <tr><th>PS Level</th><th>Range</th><th>Workshop</th></tr>
+      <tr style="background:var(--green-bg)"><td>Proceed</td><td>90–100%</td><td>No workshop needed</td></tr>
+      <tr style="background:var(--amber-bg)"><td>Watch</td><td>80–89%</td><td>Core team meeting on affected indicators</td></tr>
+      <tr style="background:#fef9c3"><td>Review</td><td>70–79%</td><td>Comprehensive workshop + formal recovery plan</td></tr>
+      <tr style="background:var(--red-bg)"><td>Escalate</td><td>0–69%</td><td>Escalate to executive governance</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ============ INDICATORS ============ -->
+<div id="section-indicators" class="section">
+  <div class="card fade-in">
+    <h2>The Four Core Indicators</h2>
+    <p>Each indicator scored 0–100% and classified into Green (90–100%), Amber (80–89%), or Red (0–79%).</p>
+  </div>
+
+  <div class="indicator-grid">
+    <div class="indicator-card fade-in">
+      <div class="header green-hdr">Cumulative Delivery Pace (CDP)</div>
+      <div class="body">
+        <p><strong>Question:</strong> Is delivery on track?</p>
+        <p><strong>Formula:</strong> CDP = AP<sub>cum</sub> / PP<sub>cum</sub></p>
+        <p><strong>What it measures:</strong> Compares cumulative actual progress against cumulative planned progress across all sprints.</p>
+      </div>
+    </div>
+
+    <div class="indicator-card fade-in">
+      <div class="header amber-hdr">Resource Efficiency (RE)</div>
+      <div class="body">
+        <p><strong>Question:</strong> Is cost within budget?</p>
+        <p><strong>Formula:</strong> RE = SB / SC (capped at 100%)</p>
+        <p><strong>What it measures:</strong> Sprint Budget vs. actual Sprint Cost. Cross-check against CDP for accuracy.</p>
+      </div>
+    </div>
+
+    <div class="indicator-card fade-in">
+      <div class="header red-hdr">Scope Stability (SS)</div>
+      <div class="body">
+        <p><strong>Question:</strong> Is scope stable?</p>
+        <p><strong>Formula:</strong> SS = 1 − (|Current − Original| / Max(Current, Original))</p>
+        <p><strong>What it measures:</strong> Variance between original and current WU count.</p>
+      </div>
+    </div>
+
+    <div class="indicator-card fade-in">
+      <div class="header purple-hdr">Collaboration &amp; Satisfaction (CS)</div>
+      <div class="body">
+        <p><strong>Question:</strong> Is the team healthy?</p>
+        <p><strong>Formula:</strong> CS = (Collab × 0.4) + (Sat × 0.4) + (Comm × 0.2)</p>
+        <p><strong>What it measures:</strong> Blends team collaboration, stakeholder satisfaction, and communication quality.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card fade-in" style="margin-top:16px">
+    <h2>Project Score (PS)</h2>
+    <p><strong>Formula:</strong> PS = (CDP + RE + SS + CS) / 4</p>
+    <p>The single most important health indicator. Maps directly to decision levels: Proceed, Watch, Review, Escalate.</p>
+  </div>
+
+  <div class="card fade-in">
+    <h2>Forecast Completion Point (FCP)</h2>
+    <p><strong>Formula:</strong> FCP = Total Sprints + ((PP<sub>cum</sub> − AP<sub>cum</sub>) × Total Sprints)</p>
+    <p>Predicts total sprints required based on CDP gap analysis.</p>
+  </div>
+</div>
+
+<!-- ============ FORMULAS & ZONES ============ -->
+<div id="section-formulas" class="section">
+  <div class="card fade-in">
+    <h2>All Formulas with Zone Classification</h2>
+    <p>Click each section to expand.</p>
+  </div>
+
+  <div class="card fade-in">
+    <h2>1. Planned Progress (PP)</h2>
+    <div class="formula-box">
+      <div class="math">PP<sub>sprint</sub> = Σ(WU Fib × 100%) / Σ(WU Fib) = 1.0 (100%)</div>
+      <p style="margin-top:8px">PP is always 100% for committed scope. Recalculated mid-sprint if scope changes.</p>
+    </div>
+    <div class="formula-box">
+      <div class="math">PP<sub>cum</sub> = (100% / Total Sprints) × Current Sprint Number</div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <h2>2. Actual Progress (AP)</h2>
+    <div class="formula-box">
+      <div class="math">AP = Σ(WU Fib × Rung Completion %) / Σ(WU Fib)</div>
+      <p style="margin-top:8px">Weighted completion based on WPL status. Updated during Daily Scrum.</p>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <h2>3. Cumulative Delivery Pace (CDP)</h2>
+    <div class="formula-box">
+      <div class="math">CDP = AP<sub>cum</sub> / PP<sub>cum</sub></div>
+    </div>
+    <div class="zone-box">
+      <div class="zone-item green">
+        <div class="label">Green (Healthy)</div>
+        <div class="range">90–100%</div>
+        <div class="desc">Delivery on schedule. Meeting cumulative commitments.</div>
+      </div>
+      <div class="zone-item amber">
+        <div class="label">Amber (Behind)</div>
+        <div class="range">80–89%</div>
+        <div class="desc">Minor delays. Monitor &amp; adjust.</div>
+      </div>
+      <div class="zone-item red">
+        <div class="label">Red (Critical)</div>
+        <div class="range">0–79%</div>
+        <div class="desc">Significantly behind. Immediate intervention.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <h2>4. Resource Efficiency (RE)</h2>
+    <div class="formula-box">
+      <div class="math">RE = min(SB / SC, 100%)</div>
+      <p style="margin-top:4px">where <strong>SB</strong> = Total Project Budget / Total Sprints</p>
+    </div>
+    <div class="zone-box">
+      <div class="zone-item green">
+        <div class="label">Green (On-Target)</div>
+        <div class="range">90–100%</div>
+        <div class="desc">Resources used efficiently.</div>
+      </div>
+      <div class="zone-item amber">
+        <div class="label">Amber (Over-Budget)</div>
+        <div class="range">80–89%</div>
+        <div class="desc">Investigate cost drivers.</div>
+      </div>
+      <div class="zone-item red">
+        <div class="label">Red (Critical)</div>
+        <div class="range">0–79%</div>
+        <div class="desc">Resources consumed with little progress. Immediate intervention.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <h2>5. Scope Stability (SS)</h2>
+    <div class="formula-box">
+      <div class="math">SS = 1 − (|Current − Original| / Max(Current, Original))</div>
+    </div>
+    <div class="zone-box">
+      <div class="zone-item green">
+        <div class="label">Green (Stable)</div>
+        <div class="range">90–100%</div>
+        <div class="desc">Scope stable. Adjustments manageable.</div>
+      </div>
+      <div class="zone-item amber">
+        <div class="label">Amber (Creeping)</div>
+        <div class="range">80–89%</div>
+        <div class="desc">Scope drifting. Monitor volume changes.</div>
+      </div>
+      <div class="zone-item red">
+        <div class="label">Red (Unstable)</div>
+        <div class="range">0–79%</div>
+        <div class="desc">Highly unstable. Immediate re-baselining needed.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <h2>6. Collaboration &amp; Satisfaction (CS)</h2>
+    <div class="formula-box">
+      <div class="math">CS = (Collab × 0.40) + (Satisfaction × 0.40) + (Comm × 0.20)</div>
+      <p style="margin-top:4px">Each sub-score: average of 1–5 ratings &divide; 5</p>
+    </div>
+    <div class="zone-box">
+      <div class="zone-item green">
+        <div class="label">Green (Engaged)</div>
+        <div class="range">90–100%</div>
+        <div class="desc">Team collaborates well. Stakeholders satisfied.</div>
+      </div>
+      <div class="zone-item amber">
+        <div class="label">Amber (Damaged)</div>
+        <div class="range">80–89%</div>
+        <div class="desc">Visible misalignment or friction.</div>
+      </div>
+      <div class="zone-item red">
+        <div class="label">Red (Broken)</div>
+        <div class="range">0–79%</div>
+        <div class="desc">Severe breakdown. Leadership intervention.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <h2>7. Project Score (PS)</h2>
+    <div class="formula-box">
+      <div class="math">PS = (CDP + RE + SS + CS) / 4</div>
+    </div>
+    <div class="zone-box">
+      <div class="zone-item green">
+        <div class="label">Proceed</div>
+        <div class="range">90–100%</div>
+        <div class="desc">All indicators Green. On track.</div>
+      </div>
+      <div class="zone-item amber">
+        <div class="label">Watch</div>
+        <div class="range">80–89%</div>
+        <div class="desc">Indicator(s) Amber. Monitor.</div>
+      </div>
+      <div class="zone-item" style="background:#fef9c3;border:2px solid #fde047">
+        <div class="label">Review</div>
+        <div class="range">70–79%</div>
+        <div class="desc">Significant issues. Corrective action.</div>
+      </div>
+      <div class="zone-item red">
+        <div class="label">Escalate</div>
+        <div class="range">0–69%</div>
+        <div class="desc">Viability in doubt. Governance.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MOSCOW ============ -->
+<div id="section-moscow" class="section">
+  <div class="card fade-in">
+    <h2>MoSCoW Prioritization with APDS Scoring</h2>
+    <p>Each Work Unit is scored 1–100 based on business value, strategic alignment, and stakeholder impact.</p>
+    <table>
+      <tr><th>Category</th><th>Score Range</th></tr>
+      <tr><td>Must Have</td><td>80–100</td></tr>
+      <tr><td>Should Have</td><td>50–79</td></tr>
+      <tr><td>Could Have</td><td>20–49</td></tr>
+      <tr><td>Won't Have</td><td>Not scored (out of scope)</td></tr>
+    </table>
+  </div>
+
+  <div class="grid-3">
+    <div class="card fade-in">
+      <h2>MoSCoW Distribution Ratio (MDR)</h2>
+      <div class="formula-box"><div class="math">MDR = Must Have count / Total requirements</div></div>
+      <p><strong>Zone Classification:</strong></p>
+      <div class="zone-item green" style="margin-bottom:6px">
+        <div class="label">Balanced</div>
+        <div class="range">30–60%</div>
+        <div class="desc">Healthy distribution. Room to absorb changes.</div>
+      </div>
+      <div class="zone-item amber" style="margin-bottom:6px">
+        <div class="label">Top-Heavy</div>
+        <div class="range">&gt; 60%</div>
+        <div class="desc">Rigid backlog. No safety buffer.</div>
+      </div>
+      <div class="zone-item red">
+        <div class="label">Thin</div>
+        <div class="range">&lt; 30%</div>
+        <div class="desc">Weak core. Unreliable MVP.</div>
+      </div>
+    </div>
+
+    <div class="card fade-in">
+      <h2>MoSCoW Value Density (MVD)</h2>
+      <div class="formula-box"><div class="math">MVD = Total Value Score / Total requirements</div></div>
+      <p><strong>Zone Classification:</strong></p>
+      <div class="zone-item green" style="margin-bottom:6px">
+        <div class="label">Healthy</div>
+        <div class="range">≥ 50</div>
+        <div class="desc">High-value backlog. Sprint capacity well spent.</div>
+      </div>
+      <div class="zone-item red">
+        <div class="label">Low-Value</div>
+        <div class="range">&lt; 50</div>
+        <div class="desc">Low-value work dominates. Critical items undelivered.</div>
+      </div>
+    </div>
+
+    <div class="card fade-in">
+      <h2>MoSCoW Stability Index (MSI)</h2>
+      <div class="formula-box"><div class="math">MSI = 1 − (Changed / Total)</div></div>
+      <p>Measures priority stability. 100% means no priorities changed.</p>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <h2>MoSCoW Cross-Indicator Impact</h2>
+    <ul>
+      <li><strong>MDR &gt; 60% → SS drops</strong> — Top-heavy backlog causes scope creep, lowering Scope Stability</li>
+      <li><strong>Frequent MoSCoW re-categorization → CS drops</strong> — Stakeholder disagreement undermines collaboration and satisfaction</li>
+      <li><strong>MVD &lt; 50 → Financial risk</strong> — Low-value backlog signals value-for-money problem</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ FORECASTING ============ -->
+<div id="section-forecast" class="section">
+  <div class="card fade-in">
+    <h2>Forecasting Engine</h2>
+    <p>The Forecast Completion Point (FCP) estimates total sprints required based on the delivery pace gap.</p>
+    <div class="formula-box">
+      <div class="math">FCP = Total Sprints + ((PP<sub>cum</sub> − AP<sub>cum</sub>) × Total Sprints)</div>
+    </div>
+    <p><strong>Example:</strong> 10 total sprints, at Sprint 5 (PP<sub>cum</sub>=50%), AP<sub>cum</sub>=30% → FCP = 10 + ((50%−30%)×10) = <strong>12 sprints</strong></p>
+  </div>
+
+  <div class="card fade-in">
+    <h2>Decision Framework</h2>
+    <p>The Project Score determines the appropriate action level and workshop type:</p>
+    <table>
+      <tr><th>PS Range</th><th>Level</th><th>Action</th><th>Workshop</th></tr>
+      <tr style="background:var(--green-bg)"><td>90–100%</td><td>Proceed</td><td>No action required</td><td>None</td></tr>
+      <tr style="background:var(--amber-bg)"><td>80–89%</td><td>Watch</td><td>Monitor closely</td><td>Core team meeting</td></tr>
+      <tr style="background:#fef9c3"><td>70–79%</td><td>Review</td><td>Corrective action</td><td>Comprehensive workshop + recovery plan</td></tr>
+      <tr style="background:var(--red-bg)"><td>0–69%</td><td>Escalate</td><td>Escalate to governance</td><td>Executive session</td></tr>
+    </table>
+  </div>
+
+  <div class="card fade-in">
+    <h2>Recovery Plan Deliverable</h2>
+    <p>When PS triggers Review or Escalate, the problem-solving workshop produces a structured recovery plan containing:</p>
+    <ul>
+      <li><strong>Specific Corrective Actions</strong> — Concrete remediation tasks</li>
+      <li><strong>Review Date</strong> — Firm deadline for evaluating intervention effectiveness</li>
+    </ul>
+    <p style="margin-top:8px"><strong>Workshop Sequence:</strong> Sprint Retrospective → Problem-Solving Workshop → Sprint Planning</p>
+  </div>
+</div>
+
+<!-- ============ CHECKLISTS ============ -->
+<div id="section-checklists" class="section">
+  <div class="card fade-in">
+    <h2>APDS Checklists</h2>
+    <p>Click items to mark them complete.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card fade-in">
+      <h2>Project Setup Checklist</h2>
+      <ul class="checklist" id="cl-setup">
+        <li onclick="toggleCheck(this)">Create Project Charter / Vision / BRD</li>
+        <li onclick="toggleCheck(this)">Log all requirements as candidate Work Units</li>
+        <li onclick="toggleCheck(this)">Apply MoSCoW prioritization to all Work Units</li>
+        <li onclick="toggleCheck(this)">Map release plan with sprint count</li>
+        <li onclick="toggleCheck(this)">Set total project budget</li>
+        <li onclick="toggleCheck(this)">Assign Fibonacci estimates to Work Units</li>
+        <li onclick="toggleCheck(this)">Record dependencies in RAID log</li>
+        <li onclick="toggleCheck(this)">Establish original WU count baseline</li>
+      </ul>
+    </div>
+
+    <div class="card fade-in">
+      <h2>Per-Sprint Data Collection</h2>
+      <ul class="checklist" id="cl-sprint">
+        <li onclick="toggleCheck(this)">Update WPL status for all active Work Units (Daily Scrum)</li>
+        <li onclick="toggleCheck(this)">Collect collaboration ratings (3 statements, 1–5)</li>
+        <li onclick="toggleCheck(this)">Collect communication ratings (2 statements, 1–5)</li>
+        <li onclick="toggleCheck(this)">Collect stakeholder satisfaction ratings (2 statements, 1–5)</li>
+        <li onclick="toggleCheck(this)">Record actual Sprint Cost (SC)</li>
+        <li onclick="toggleCheck(this)">Recalculate WU count if scope changed</li>
+      </ul>
+    </div>
+
+    <div class="card fade-in">
+      <h2>Sprint Review &amp; Retrospective</h2>
+      <ul class="checklist" id="cl-review">
+        <li onclick="toggleCheck(this)">Calculate AP, PP, CDP, RE, SS, CS</li>
+        <li onclick="toggleCheck(this)">Calculate Project Score (PS)</li>
+        <li onclick="toggleCheck(this)">Determine decision level (Proceed/Watch/Review/Escalate)</li>
+        <li onclick="toggleCheck(this)">Calculate Forecast Completion Point (FCP)</li>
+        <li onclick="toggleCheck(this)">Review MoSCoW distribution (MDR, MVD, MSI)</li>
+        <li onclick="toggleCheck(this)">Present indicators and PS to team/stakeholders</li>
+        <li onclick="toggleCheck(this)">If PS &lt; 90%: Schedule problem-solving workshop</li>
+      </ul>
+    </div>
+
+    <div class="card fade-in">
+      <h2>Problem-Solving Workshop</h2>
+      <ul class="checklist" id="cl-workshop">
+        <li onclick="toggleCheck(this)">Identify root causes of underperforming indicators</li>
+        <li onclick="toggleCheck(this)">Define specific corrective actions</li>
+        <li onclick="toggleCheck(this)">Assign item owners</li>
+        <li onclick="toggleCheck(this)">Set firm review date</li>
+        <li onclick="toggleCheck(this)">Feed recovery plan into Sprint Planning</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CALCULATORS ============ -->
+<div id="section-calculators" class="section">
+  <div class="card fade-in">
+    <h2>Interactive Calculators</h2>
+    <p>Calculate each indicator in real time and see zone classification.</p>
+  </div>
+
+  <div class="grid-2">
+    <!-- CDP -->
+    <div class="card fade-in">
+      <h2>Cumulative Delivery Pace (CDP)</h2>
+      <div class="calc-group">
+        <label>AP<sub>cum</sub> (%)</label>
+        <input type="number" id="cdp-ap" value="30" min="0" max="100">
+      </div>
+      <div class="calc-group">
+        <label>PP<sub>cum</sub> (%)</label>
+        <input type="number" id="cdp-pp" value="50" min="0" max="100">
+      </div>
+      <button class="calc-btn" onclick="calcCDP()">Calculate CDP</button>
+      <div id="cdp-result" class="result-box" style="background:var(--red-bg);color:var(--red)">CDP = 60.0% — Red (Critical)</div>
+    </div>
+
+    <!-- RE -->
+    <div class="card fade-in">
+      <h2>Resource Efficiency (RE)</h2>
+      <div class="calc-group">
+        <label>Sprint Budget ($)</label>
+        <input type="number" id="re-sb" value="50000" min="0">
+      </div>
+      <div class="calc-group">
+        <label>Sprint Cost ($)</label>
+        <input type="number" id="re-sc" value="53000" min="0">
+      </div>
+      <button class="calc-btn" onclick="calcRE()">Calculate RE</button>
+      <div id="re-result" class="result-box" style="background:var(--green-bg);color:var(--green)">RE = 94.3% — Green (On-Target)</div>
+    </div>
+
+    <!-- SS -->
+    <div class="card fade-in">
+      <h2>Scope Stability (SS)</h2>
+      <div class="calc-group">
+        <label>Original WU Count</label>
+        <input type="number" id="ss-orig" value="20" min="0">
+      </div>
+      <div class="calc-group">
+        <label>Current WU Count</label>
+        <input type="number" id="ss-cur" value="24" min="0">
+      </div>
+      <button class="calc-btn" onclick="calcSS()">Calculate SS</button>
+      <div id="ss-result" class="result-box" style="background:var(--amber-bg);color:var(--amber)">SS = 83.3% — Amber (Creeping)</div>
+    </div>
+
+    <!-- CS -->
+    <div class="card fade-in">
+      <h2>Collaboration &amp; Satisfaction (CS)</h2>
+      <div class="calc-group">
+        <label>Collaboration Score (0–1)</label>
+        <input type="number" id="cs-collab" value="0.84" step="0.01" min="0" max="1">
+      </div>
+      <div class="calc-group">
+        <label>Satisfaction Score (0–1)</label>
+        <input type="number" id="cs-sat" value="0.76" step="0.01" min="0" max="1">
+      </div>
+      <div class="calc-group">
+        <label>Communication Score (0–1)</label>
+        <input type="number" id="cs-comm" value="0.90" step="0.01" min="0" max="1">
+      </div>
+      <button class="calc-btn" onclick="calcCS()">Calculate CS</button>
+      <div id="cs-result" class="result-box" style="background:var(--amber-bg);color:var(--amber)">CS = 82.0% — Amber (Damaged)</div>
+    </div>
+
+    <!-- PS -->
+    <div class="card fade-in">
+      <h2>Project Score (PS)</h2>
+      <div class="calc-group">
+        <label>CDP (%)</label>
+        <input type="number" id="ps-cdp" value="70" min="0" max="100">
+      </div>
+      <div class="calc-group">
+        <label>RE (%)</label>
+        <input type="number" id="ps-re" value="85" min="0" max="100">
+      </div>
+      <div class="calc-group">
+        <label>SS (%)</label>
+        <input type="number" id="ps-ss" value="90" min="0" max="100">
+      </div>
+      <div class="calc-group">
+        <label>CS (%)</label>
+        <input type="number" id="ps-cs" value="80" min="0" max="100">
+      </div>
+      <button class="calc-btn" onclick="calcPS()">Calculate PS</button>
+      <div id="ps-result" class="result-box" style="background:var(--amber-bg);color:var(--amber)">PS = 81.3% — Watch</div>
+    </div>
+
+    <!-- FCP -->
+    <div class="card fade-in">
+      <h2>Forecast Completion Point (FCP)</h2>
+      <div class="calc-group">
+        <label>Total Sprints</label>
+        <input type="number" id="fcp-total" value="10" min="1">
+      </div>
+      <div class="calc-group">
+        <label>Current Sprint Number</label>
+        <input type="number" id="fcp-cur" value="5" min="0">
+      </div>
+      <div class="calc-group">
+        <label>AP<sub>cum</sub> (%)</label>
+        <input type="number" id="fcp-ap" value="30" min="0" max="100">
+      </div>
+      <button class="calc-btn" onclick="calcFCP()">Calculate FCP</button>
+      <div id="fcp-result" class="result-box" style="background:var(--red-bg);color:var(--red)">FCP = 12 sprints</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// Navigation
+document.querySelectorAll('.nav-bar button').forEach(btn => {
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.nav-bar button').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + this.dataset.section).classList.add('active');
+  });
+});
+
+// Checklist toggle
+function toggleCheck(el) {
+  el.classList.toggle('done');
+}
+
+// Zone helper
+function zoneLabel(val, g, a) {
+  if (val >= g) return {color:'var(--green)', bg:'var(--green-bg)', label:'Green', z:'green'};
+  if (val >= a) return {color:'var(--amber)', bg:'var(--amber-bg)', label:'Amber', z:'amber'};
+  return {color:'var(--red)', bg:'var(--red-bg)', label:'Red', z:'red'};
+}
+function zonePS(val) {
+  if (val >= 90) return {color:'var(--green)', bg:'var(--green-bg)', label:'Proceed', z:'green'};
+  if (val >= 80) return {color:'var(--amber)', bg:'var(--amber-bg)', label:'Watch', z:'amber'};
+  if (val >= 70) return {color:'#d97706', bg:'#fef9c3', label:'Review', z:'yellow'};
+  return {color:'var(--red)', bg:'var(--red-bg)', label:'Escalate', z:'red'};
+}
+
+function setResult(id, val, zone) {
+  const el = document.getElementById(id);
+  el.style.background = zone.bg;
+  el.style.color = zone.color;
+  el.textContent = val;
+}
+
+// CDP
+function calcCDP() {
+  const ap = parseFloat(document.getElementById('cdp-ap').value) || 0;
+  const pp = parseFloat(document.getElementById('cdp-pp').value) || 0;
+  const cdp = pp > 0 ? (ap / pp) * 100 : 0;
+  const z = zoneLabel(cdp, 90, 80);
+  setResult('cdp-result', `CDP = ${cdp.toFixed(1)}% — ${z.label}${z.z === 'green' ? ' (Healthy)' : z.z === 'amber' ? ' (Behind)' : ' (Critical)'}`, z);
+}
+
+// RE
+function calcRE() {
+  const sb = parseFloat(document.getElementById('re-sb').value) || 0;
+  const sc = parseFloat(document.getElementById('re-sc').value) || 1;
+  let re = (sb / sc) * 100;
+  if (re > 100) re = 100;
+  const z = zoneLabel(re, 90, 80);
+  setResult('re-result', `RE = ${re.toFixed(1)}% — ${z.label}${z.z === 'green' ? ' (On-Target)' : z.z === 'amber' ? ' (Over-Budget)' : ' (Critical)'}`, z);
+}
+
+// SS
+function calcSS() {
+  const o = parseFloat(document.getElementById('ss-orig').value) || 0;
+  const c = parseFloat(document.getElementById('ss-cur').value) || 0;
+  const ss = Math.max(o, c) > 0 ? (1 - (Math.abs(c - o) / Math.max(o, c))) * 100 : 100;
+  const z = zoneLabel(ss, 90, 80);
+  setResult('ss-result', `SS = ${ss.toFixed(1)}% — ${z.label}${z.z === 'green' ? ' (Stable)' : z.z === 'amber' ? ' (Creeping)' : ' (Unstable)'}`, z);
+}
+
+// CS
+function calcCS() {
+  const col = parseFloat(document.getElementById('cs-collab').value) || 0;
+  const sat = parseFloat(document.getElementById('cs-sat').value) || 0;
+  const com = parseFloat(document.getElementById('cs-comm').value) || 0;
+  const cs = (col * 0.4 + sat * 0.4 + com * 0.2) * 100;
+  const z = zoneLabel(cs, 90, 80);
+  setResult('cs-result', `CS = ${cs.toFixed(1)}% — ${z.label}${z.z === 'green' ? ' (Engaged)' : z.z === 'amber' ? ' (Damaged)' : ' (Broken)'}`, z);
+}
+
+// PS
+function calcPS() {
+  const cdp = parseFloat(document.getElementById('ps-cdp').value) || 0;
+  const re = parseFloat(document.getElementById('ps-re').value) || 0;
+  const ss = parseFloat(document.getElementById('ps-ss').value) || 0;
+  const cs = parseFloat(document.getElementById('ps-cs').value) || 0;
+  const ps = (cdp + re + ss + cs) / 4;
+  const z = zonePS(ps);
+  setResult('ps-result', `PS = ${ps.toFixed(1)}% — ${z.label}`, z);
+}
+
+// FCP
+function calcFCP() {
+  const total = parseFloat(document.getElementById('fcp-total').value) || 1;
+  const cur = parseFloat(document.getElementById('fcp-cur').value) || 0;
+  const ap = parseFloat(document.getElementById('fcp-ap').value) || 0;
+  const pp = (cur / total) * 100;
+  const fcp = total + ((pp - ap) / 100) * total;
+  const z = fcp <= total ? {bg:'var(--green-bg)', color:'var(--green)'} :
+             fcp <= total * 1.15 ? {bg:'var(--amber-bg)', color:'var(--amber)'} :
+             {bg:'var(--red-bg)', color:'var(--red)'};
+  setResult('fcp-result', `FCP = ${fcp.toFixed(0)} sprints${fcp > total ? ` (${(fcp - total).toFixed(0)} extra sprints)` : ' (on track)'}`, z);
+}
+
+// Init calculators with default values
+window.onload = function() {
+  calcCDP(); calcRE(); calcSS(); calcCS(); calcPS(); calcFCP();
+};
+</script>
+
+</body>
+</html>
