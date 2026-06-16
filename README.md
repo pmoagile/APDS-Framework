@@ -4,7 +4,7 @@
 
 **A measurement and decision-making framework for Scrum-based project delivery.**
 
-Most Scrum teams lack objective data to assess project health. APDS fills that gap, tracking four indicators (delivery pace, budget efficiency, scope stability, team/stakeholder health) through a simple Green/Amber/Red system that produces a single Project Score with a clear action: **Proceed, Watch, Review, or Escalate.**
+Most Scrum teams lack objective data to assess project health. APDS fills that gap, tracking four indicators (Delivery Pace(CDP), Resource Efficiency(RE), Scope Stability(SS), Collaboration and Satisfaction(CS)) through a simple Green/Amber/Red system that produces a single Project Score with a clear action: Proceed, Watch, Review, or Escalate.
 
 **Why APDS?**
 - No new ceremonies -- sits on top of existing Scrum events
