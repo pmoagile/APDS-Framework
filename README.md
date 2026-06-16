@@ -8,7 +8,7 @@ APDS tracks four core indicators: **Cumulative Delivery Pace (CDP)**, **Resource
 
 ## Documentation
 
-- **[Full Framework Guide (APDS_Framework.md)](APDS_Framework.md)** covers all concepts, formulas, zone classifications, checklists, and decision levels.
+- **[Full Framework Guide (APDS_Framework.md)](APDS_Framework.md)** covers all concepts, formulas, zone classifications, and decision levels.
 
 ## License
 
