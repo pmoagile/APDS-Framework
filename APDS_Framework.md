@@ -552,7 +552,7 @@ The workshop produces a structured recovery plan containing:
 </p>
 
 **Attribution requirement:** Any use, modification, or distribution must include the statement:
-*"Based on the Agile Project Delivery System (APDS) Framework by Mo Agiles"* or similar clear credit.
+*"Based on the Agile Project Delivery System (APDS) Framework by Vahid Hakami"* or similar clear credit.
 
 **ShareAlike condition:** Any adapted or modified versions must be distributed under the same CC BY-SA 4.0 license.
 
