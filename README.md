@@ -4,7 +4,16 @@
 
 **A measurement and decision-making framework for Scrum-based project delivery.**
 
-APDS tracks four core indicators: **Cumulative Delivery Pace (CDP)**, **Resource Efficiency (RE)**, **Scope Stability (SS)**, and **Collaboration & Satisfaction (CS)**, classified into Green, Amber, and Red performance zones. These feed into a Project Score that directs Product Owners to **Proceed**, **Watch**, **Review**, or **Escalate**.
+Most Scrum teams lack objective data to assess project health. APDS fills that gap, tracking four indicators (delivery pace, budget efficiency, scope stability, team/stakeholder health) through a simple Green/Amber/Red system that produces a single Project Score with a clear action: **Proceed, Watch, Review, or Escalate.**
+
+**Why APDS?**
+- No new ceremonies -- sits on top of existing Scrum events
+- Quantifiable metrics replace gut-feel status reporting
+- Built-in forecasting predicts actual completion sprints
+- Open source under CC BY-SA 4.0
+
+**Quick start:**
+Read the [full framework guide](APDS_Framework.md) or download the [PDF](Agile%20Project%20Delivery%20System%20Framework.pdf).
 
 ## Documentation
 
